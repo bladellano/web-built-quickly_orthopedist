@@ -1,64 +1,40 @@
+<script setup>
+import { CONTENT } from '../config.js'
+
+const iconPaths = {
+  stethoscope:
+    'M12 4v6a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V4m10 0h4m-4 0h-4m6 12a6 6 0 0 0 12 0',
+  shield: 'M12 3l8 4v6c0 5-3 9-8 12-5-3-8-7-8-12V7l8-4z',
+  spine: 'M12 4v16m0-10h6m-6 4h6m-6 4h6',
+  joint: 'M7 5h10v4H7zM9 9h6v10H9z',
+  arm: 'M8 5c2 0 4 2 4 4v3c0 2 2 4 4 4',
+  video: 'M4 7h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm14 2 4-2v10l-4-2',
+}
+</script>
+
 <template>
-  <section id="especialidades" class="py-20 bg-gray-50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-12">
-        <span class="section-label">Áreas de atuação</span>
-        <h2 class="section-title">Especialidades e Atendimentos</h2>
-        <p class="text-gray-500 max-w-xl mx-auto">
-          Diagnóstico e tratamento de lesões e doenças do sistema musculoesquelético, com foco em
-          qualidade de vida e recuperação funcional do paciente.
-        </p>
+  <section id="especialidades" class="section-pad">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-10 flex flex-col gap-4">
+        <span class="text-xs uppercase tracking-[0.35em] text-tide">{{ CONTENT.specialties.eyebrow }}</span>
+        <h2 class="text-3xl text-bone sm:text-4xl">{{ CONTENT.specialties.title }}</h2>
       </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div
-          v-for="specialty in specialties"
-          :key="specialty.title"
-          class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all duration-200 group"
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <article
+          v-for="item in CONTENT.specialties.items"
+          :key="item.title"
+          class="glass flex flex-col gap-4 rounded-3xl p-6"
         >
-          <div class="w-12 h-12 rounded-lg bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center mb-4 transition-colors">
-            <span class="text-2xl" role="img" :aria-label="specialty.title">{{ specialty.icon }}</span>
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-tide/20">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-6 w-6 text-tide">
+              <path :d="iconPaths[item.icon]" />
+            </svg>
           </div>
-          <h3 class="font-semibold text-gray-900 mb-2">{{ specialty.title }}</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">{{ specialty.description }}</p>
-        </div>
+          <h3 class="text-xl text-bone">{{ item.title }}</h3>
+          <p class="text-sm text-muted">{{ item.description }}</p>
+        </article>
       </div>
     </div>
   </section>
 </template>
-
-<script setup>
-// ⚠️ Adapte os itens abaixo conforme as subespecialidades reais do Dr. Mauro
-const specialties = [
-  {
-    icon: '🦴',
-    title: 'Consulta Ortopédica',
-    description: 'Avaliação completa do sistema musculoesquelético com anamnese detalhada, exame físico e definição do plano terapêutico.',
-  },
-  {
-    icon: '🩹',
-    title: 'Traumas e Fraturas',
-    description: 'Diagnóstico e tratamento de fraturas, luxações e lesões traumáticas, com indicação conservadora ou cirúrgica conforme cada caso.',
-  },
-  {
-    icon: '🔩',
-    title: 'Doenças da Coluna',
-    description: 'Manejo de hérnia de disco, lombalgia, cervicalgia e outras patologias da coluna vertebral cervical, torácica e lombar.',
-  },
-  {
-    icon: '🦵',
-    title: 'Joelho e Quadril',
-    description: 'Tratamento de lesões ligamentares, meniscopatias, artrose e outras condições que afetam joelho e quadril.',
-  },
-  {
-    icon: '💪',
-    title: 'Ombro e Cotovelo',
-    description: 'Avaliação e tratamento de tendinopatias, instabilidades, lesões do manguito rotador e demais doenças do membro superior.',
-  },
-  {
-    icon: '📱',
-    title: 'Telemedicina (em breve)',
-    description: 'Atendimento online em estruturação. Em breve disponível para ampliar o acesso e a comodidade dos pacientes.',
-  },
-]
-</script>

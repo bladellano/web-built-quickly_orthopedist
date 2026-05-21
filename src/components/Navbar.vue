@@ -1,107 +1,85 @@
+<script setup>
+import { onMounted, onUnmounted, ref } from 'vue'
+import { CONTENT, DOCTOR, whatsappUrl } from '../config.js'
+
+const isScrolled = ref(false)
+const isOpen = ref(false)
+const whatsappLink = whatsappUrl()
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 24
+}
+
+onMounted(() => {
+  handleScroll()
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+</script>
+
 <template>
-  <nav
-    class="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
-    :class="isScrolled ? 'bg-white shadow-sm py-3' : 'bg-transparent py-5'"
+  <header
+    class="fixed left-0 right-0 top-0 z-40 transition"
+    :class="isScrolled ? 'bg-ink/90 shadow-soft backdrop-blur' : 'bg-transparent'"
   >
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-      <!-- Logo -->
-      <a href="#inicio" @click.prevent="scrollTo('#inicio')" class="flex items-center gap-3 cursor-pointer">
-        <img
-          src="/logo-02.png"
-          :alt="DOCTOR.shortName"
-          class="h-[3.125rem] w-auto object-contain"
-        />
-        <div class="leading-tight hidden sm:block">
-          <p class="font-bold text-sm" :class="isScrolled ? 'text-blue-900' : 'text-white'">
-            {{ DOCTOR.shortName }}
-          </p>
-          <p class="text-xs" :class="isScrolled ? 'text-gray-400' : 'text-blue-200'">
-            {{ DOCTOR.crm }}
-          </p>
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:px-10">
+      <a href="#top" class="flex items-center gap-3 text-bone">
+        <img src="/logo-02.png" alt="Logo" class="h-10 w-10 rounded-full object-cover" />
+        <div class="leading-tight">
+          <p class="text-sm uppercase tracking-[0.3em] text-tide">{{ DOCTOR.specialty }}</p>
+          <p class="text-lg font-semibold">{{ DOCTOR.shortName }}</p>
         </div>
       </a>
 
-      <!-- Links desktop -->
-      <div class="hidden md:flex items-center gap-6">
+      <div class="hidden items-center gap-6 text-sm text-mist/80 md:flex">
         <a
-          v-for="item in navItems"
+          v-for="item in CONTENT.nav"
           :key="item.href"
+          class="transition hover:text-bone"
           :href="item.href"
-          @click.prevent="scrollTo(item.href)"
-          class="text-sm font-medium transition-colors cursor-pointer"
-          :class="isScrolled ? 'text-gray-600 hover:text-blue-800' : 'text-blue-100 hover:text-white'"
         >
           {{ item.label }}
         </a>
+      </div>
+
+      <div class="hidden items-center gap-3 md:flex">
         <a
-          :href="whatsappUrl()"
+          class="rounded-full border border-bone/30 px-4 py-2 text-sm font-semibold text-bone transition hover:bg-bone/10"
+          :href="whatsappLink"
           target="_blank"
-          rel="noopener noreferrer"
-          class="text-sm font-semibold bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+          rel="noreferrer"
         >
-          Agendar Consulta
+          {{ CONTENT.navCta }}
         </a>
       </div>
 
-      <!-- Botão mobile -->
       <button
-        class="md:hidden p-2 rounded-lg"
-        :class="isScrolled ? 'text-gray-700' : 'text-white'"
-        @click="mobileMenuOpen = !mobileMenuOpen"
+        class="flex h-10 w-10 items-center justify-center rounded-full border border-bone/30 text-bone md:hidden"
+        @click="isOpen = !isOpen"
         aria-label="Abrir menu"
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
+        <span v-if="!isOpen">+</span>
+        <span v-else>-</span>
       </button>
-    </div>
+    </nav>
 
-    <!-- Menu mobile -->
-    <div v-if="mobileMenuOpen" class="md:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-2">
-      <a
-        v-for="item in navItems"
-        :key="item.href"
-        :href="item.href"
-        @click.prevent="scrollTo(item.href); mobileMenuOpen = false"
-        class="block text-gray-700 hover:text-blue-800 font-medium py-2"
-      >
-        {{ item.label }}
-      </a>
-      <a
-        :href="whatsappUrl()"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg mt-2"
-      >
-        Agendar Consulta
-      </a>
+    <div v-if="isOpen" class="border-t border-bone/10 bg-ink/95 md:hidden">
+      <div class="flex flex-col gap-3 px-6 py-4 text-sm text-mist/80">
+        <a v-for="item in CONTENT.nav" :key="item.href" :href="item.href">
+          {{ item.label }}
+        </a>
+        <a
+          class="rounded-full border border-bone/30 px-4 py-2 text-center text-sm font-semibold text-bone"
+          :href="whatsappLink"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {{ CONTENT.navCta }}
+        </a>
+      </div>
     </div>
-  </nav>
+  </header>
 </template>
-
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { DOCTOR, whatsappUrl } from '../config.js'
-
-const isScrolled = ref(false)
-const mobileMenuOpen = ref(false)
-
-const navItems = [
-  { label: 'Início',        href: '#inicio' },
-  { label: 'Sobre',         href: '#sobre' },
-  { label: 'Especialidades', href: '#especialidades' },
-  { label: 'Diferenciais',  href: '#diferenciais' },
-  { label: 'Contato',       href: '#contato' },
-]
-
-const scrollTo = (href) => {
-  const el = document.querySelector(href)
-  if (el) el.scrollIntoView({ behavior: 'smooth' })
-}
-
-const handleScroll = () => { isScrolled.value = window.scrollY > 60 }
-
-onMounted(() => window.addEventListener('scroll', handleScroll))
-onUnmounted(() => window.removeEventListener('scroll', handleScroll))
-</script>

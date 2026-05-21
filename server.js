@@ -1,19 +1,20 @@
 import express from 'express'
-import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+const __dirname = path.dirname(__filename)
 
 const app = express()
-const PORT = process.env.PORT || 3000
+const port = process.env.PORT || 3000
+const distPath = path.join(__dirname, 'dist')
 
-app.use(express.static(join(__dirname, 'dist')))
+app.use(express.static(distPath))
 
 app.get('*', (req, res) => {
-  res.sendFile(join(__dirname, 'dist', 'index.html'))
+  res.sendFile(path.join(distPath, 'index.html'))
 })
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`)
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`)
 })

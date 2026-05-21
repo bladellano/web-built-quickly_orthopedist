@@ -2,30 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+:root {
+  color-scheme: light;
+}
 
-  body {
-    @apply font-sans text-gray-800 antialiased;
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: radial-gradient(circle at top, rgba(90, 161, 179, 0.25), transparent 45%),
+    linear-gradient(135deg, #0b1a2b 0%, #122a38 45%, #1b2e3c 100%);
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'DM Serif Display', serif;
+}
+
+.section-pad {
+  @apply px-6 py-16 sm:px-10 lg:px-16;
+}
+
+.glass {
+  background: rgba(10, 25, 40, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(3, 14, 24, 0.35);
+  backdrop-filter: blur(18px);
+}
+
+.text-muted {
+  color: rgba(231, 238, 243, 0.7);
+}
+
+.bg-orb {
+  background: radial-gradient(circle, rgba(90, 161, 179, 0.4), transparent 65%);
+  filter: blur(0.5px);
+}
+
+.fade-up {
+  animation: fadeUp 0.9s ease forwards;
+}
+
+.float-slow {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@layer components {
-  .btn-whatsapp {
-    @apply inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg;
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0px);
   }
-
-  .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 border-2 border-white/50 text-white hover:bg-white/10 font-semibold px-6 py-3 rounded-lg transition-all duration-200;
-  }
-
-  .section-label {
-    @apply text-blue-700 font-semibold text-sm uppercase tracking-wider;
-  }
-
-  .section-title {
-    @apply text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-4;
+  50% {
+    transform: translateY(-14px);
   }
 }

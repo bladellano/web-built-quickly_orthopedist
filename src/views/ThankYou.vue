@@ -1,21 +1,20 @@
+<script setup>
+import { RouterLink } from 'vue-router'
+import { CONTENT } from '../config.js'
+</script>
+
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center px-4">
-    <div class="max-w-md mx-auto text-center">
-      <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
-      </div>
-      <h1 class="text-3xl font-bold text-gray-900 mb-4">Mensagem Enviada!</h1>
-      <p class="text-gray-600 leading-relaxed mb-8">
-        Sua mensagem foi recebida com sucesso. O Dr. Mauro entrará em contato em breve para confirmar o agendamento da sua consulta.
-      </p>
-      <router-link
+  <section class="section-pad min-h-screen">
+    <div class="mx-auto flex max-w-3xl flex-col items-start gap-6">
+      <span class="text-sm uppercase tracking-[0.35em] text-tide">Confirmação</span>
+      <h1 class="text-4xl text-bone sm:text-5xl">{{ CONTENT.thankYou.title }}</h1>
+      <p class="text-lg text-muted">{{ CONTENT.thankYou.subtitle }}</p>
+      <RouterLink
         to="/"
-        class="inline-flex items-center gap-2 bg-blue-800 hover:bg-blue-900 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+        class="inline-flex items-center gap-2 rounded-full border border-bone/30 px-6 py-3 text-sm font-semibold text-bone transition hover:bg-bone/10"
       >
-        Voltar ao início
-      </router-link>
+        {{ CONTENT.thankYou.ctaLabel }}
+      </RouterLink>
     </div>
-  </div>
+  </section>
 </template>
